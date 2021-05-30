@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 @lazySingleton
 class HttpServiceManager {
 
   Dio _dio = Dio();
   Logger _logger = Logger();
+  String apiKey = dotenv.env['API_KEY'];
 
   HttpServiceManager() {
     _dio.options.baseUrl = 'https://api.themoviedb.org/3/movie';
@@ -14,7 +16,7 @@ class HttpServiceManager {
 
   Future<dynamic> movieNowPlayingReq() async {
     try {
-      var res = await get('/now_playing?api_key=3f7508b245d1a1baf58afb66d3481319&&language=ko');
+      var res = await get('/now_playing?api_key=$apiKey&language=ko');
       return res;
     } catch (e) {
       _logger.v(e);
