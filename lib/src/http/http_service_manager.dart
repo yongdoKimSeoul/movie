@@ -12,6 +12,7 @@ class HttpServiceManager {
 
   HttpServiceManager() {
     _dio.options.baseUrl = 'https://api.themoviedb.org/3/movie';
+    _dio.options.contentType = Headers.formUrlEncodedContentType;
   }
 
   Future<dynamic> movieNowPlayingReq() async {

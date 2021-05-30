@@ -45,6 +45,7 @@ dependencies:
   #util
   logger: ^1.0.0
   flutter_dotenv: ^5.0.0
+  pedantic: ^1.11.0
 
 
   #json

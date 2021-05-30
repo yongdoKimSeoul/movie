@@ -9,24 +9,36 @@ import 'package:logger/logger.dart';
 class MovieService {
   final HttpServiceManager _httpServiceManager = locator<HttpServiceManager>();
   Logger _logger = Logger();
-
   MovieNowPlayingInfo _movieNowPlayingInfo;
 
 
 
-  Future<ServiceResponse<MovieNowPlayingInfo>> getMovieNowPlayingInfo() async {
+  Future<ServiceResponse<List<MovieNowPlayingInfo>>> getMovieNowPlayingInfo() async {
     try {
       var res = await _httpServiceManager.movieNowPlayingReq();
-      if (res != null) {
-        _logger.d(res);
-        var result = MovieNowPlayingInfo.fromJson(res['results']);
-        _movieNowPlayingInfo = result;
-        return ServiceResponse(result: true, value: _movieNowPlayingInfo);
+      if((res['results']) != null) {
+        print("here");
+        //print(res);
+
+        // // List<MovieNowPlayingInfo> movieList = (res['results'] as List).map((item) => MovieNowPlayingInfo.fromJson(item)).toList();
+        // List<MovieNowPlayingInfo> movieList=[];
+
+
+        List<MovieNowPlayingInfo> movieList = (res['results'] as List).map((item) => MovieNowPlayingInfo.fromJson(item)).toList();
+
+
+
+
+
+
+        return ServiceResponse(result: true, value: movieList);
       } else {
+        print('is null');
         return ServiceResponse(
-            result: false, value: null, errorMsg: res['ErrorMsg']);
+            result: false, value: null, errorMsg: "results is null");
       }
     } catch (e) {
+      print(e);
       return ServiceResponse(
           result: false, value: null, errorMsg: "Error");
     }

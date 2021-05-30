@@ -9,7 +9,7 @@ class MovieViewModel extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
   bool _isLoading = false;
-  MovieNowPlayingInfo _movieNowPlayingInfo;
+  List<MovieNowPlayingInfo> _movieNowPlayingInfoList;
 
 
 
@@ -17,16 +17,16 @@ class MovieViewModel extends ChangeNotifier {
     setLoadingStatus(true);
     await getNowPlayingInfo();
     setLoadingStatus(false);
-
-
-    print(_movieNowPlayingInfo);
     notifyListeners();
   }
 
   Future getNowPlayingInfo()async{
     var result =  await _movieService.getMovieNowPlayingInfo();
     if(result.result){
-      _movieNowPlayingInfo = result.value;
+      _movieNowPlayingInfoList = result.value;
+      print(_movieNowPlayingInfoList.length);
+    }else{
+      print('result is failed');
     }
   }
 
