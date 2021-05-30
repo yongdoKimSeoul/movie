@@ -57,6 +57,14 @@ class HttpServiceManager {
   }
 
 
+  Future<dynamic> movieReviewReq({@required int movieId}) async {
+    try {
+      var res = await get('/movie/$movieId/reviews?api_key=$apiKey&language=en-US');
+      return res;
+    } catch (e) {
+      _logger.v(e);
+    }
+  }
 
 
   // Base Http Methods

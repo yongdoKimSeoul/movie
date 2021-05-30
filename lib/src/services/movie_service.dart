@@ -4,6 +4,7 @@ import 'package:just_test/src/model/movie_actor_model.dart';
 import 'package:just_test/src/model/movie_detail_model.dart';
 import 'package:just_test/src/model/movie_genres_model.dart';
 import 'package:just_test/src/model/movie_info_model.dart';
+import 'package:just_test/src/model/movie_review_model.dart';
 import 'package:just_test/src/services/service_response.dart';
 import 'package:just_test/src/utils/locator.dart';
 import 'package:logger/logger.dart';
@@ -147,6 +148,29 @@ class MovieService {
             .map((item) => MovieActorModel.fromJson(item))
             .toList();
         return ServiceResponse(result: true, value: actorList);
+      } else {
+        return ServiceResponse(
+            result: false, value: null, errorMsg: "results is null");
+      }
+    } catch (e) {
+      print(e);
+      return ServiceResponse(result: false, value: null, errorMsg: "Error");
+    }
+  }
+
+  //movieReviewReq
+
+  Future<ServiceResponse<List<MovieReviewModel>>> getReviewInfo(
+      int movieId) async {
+
+    print(movieId);
+    try {
+      var res = await _httpServiceManager.movieReviewReq(movieId: movieId);
+      if (res['results'] != null) {
+        List<MovieReviewModel> reviewList = (res['results'] as List)
+            .map((item) => MovieReviewModel.fromJson(item))
+            .toList();
+        return ServiceResponse(result: true, value: reviewList);
       } else {
         return ServiceResponse(
             result: false, value: null, errorMsg: "results is null");

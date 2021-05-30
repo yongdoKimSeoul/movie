@@ -32,6 +32,7 @@ class MovieDetailView extends StatelessWidget {
                   blackFilter(),
                   SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           height: 23,
@@ -109,8 +110,6 @@ Widget movieDetail(MovieDetailViewModel model, BuildContext context) {
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 4),
                             child: Container(
-                              width: 27,
-                              height: 12,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(2),
                                 border: Border.all(
@@ -118,10 +117,13 @@ Widget movieDetail(MovieDetailViewModel model, BuildContext context) {
                                   color: ColorTheme.primaryRed,
                                 ),
                               ),
-                              child: Text(
-                                "Adult",
-                                style: FontTheme.notoBold.copyWith(
-                                    color: ColorTheme.primaryRed, fontSize: 7),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 4,right:4, bottom: 1, top: 1),
+                                child: Text(
+                                  "Adult",
+                                  style: FontTheme.notoBold.copyWith(
+                                      color: ColorTheme.primaryRed, fontSize: 7),
+                                ),
                               ),
                             ),
                           )),
@@ -171,7 +173,7 @@ Widget movieDetail(MovieDetailViewModel model, BuildContext context) {
               SizedBox(
                 height: 24,
               ),
-
+              movieReviewWidget(model, context),
             ],
           ),
         )),
@@ -195,7 +197,7 @@ Widget actorsWidget(MovieDetailViewModel model, BuildContext context) {
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 3,
+            itemCount: model.movieActorsList.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: EdgeInsets.only(left: 16),
@@ -208,18 +210,21 @@ Widget actorsWidget(MovieDetailViewModel model, BuildContext context) {
                           child: Container(
                               width: 40,
                               height: 40,
-                              child: ImageLoader(
-                                  imageUrl:
-                                      model.movieActorsList[index].profilePath))),
+                              child: model.movieActorsList[index].profilePath ==
+                                      null
+                                  ? Icon(Icons.person)
+                                  : ImageLoader(
+                                      imageUrl: model.movieActorsList[index]
+                                          .profilePath))),
                       SizedBox(
                         height: 2,
                       ),
                       Container(
-                          child: Text(
-                        model.movieActorsList[index].name,
-                        style: FontTheme.notoRegular
-                            .copyWith(color: ColorTheme.blackZero, fontSize: 8),
-                      ),
+                        child: Text(
+                          model.movieActorsList[index].name,
+                          style: FontTheme.notoRegular.copyWith(
+                              color: ColorTheme.blackZero, fontSize: 8),
+                        ),
                       ),
                     ],
                   ),
@@ -231,13 +236,100 @@ Widget actorsWidget(MovieDetailViewModel model, BuildContext context) {
   );
 }
 
-Widget movieReviewWidget(MovieDetailViewModel model, BuildContext context){
+Widget movieReviewWidget(MovieDetailViewModel model, BuildContext context) {
+  print("model.movieReviewList.length," +
+      model.movieReviewList.length.toString());
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         "리뷰",
         style: FontTheme.notoBold
             .copyWith(color: ColorTheme.blackZero, fontSize: 16),
+      ),
+      SizedBox(
+        height: 16,
+      ),
+      if (model.movieReviewList.length == 0)
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 71,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.4),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Container(
+                  child: Center(
+                    child: Text(
+                      "아직 리뷰가 없습니다.",
+                      style: FontTheme.notoRegular
+                          .copyWith(color: ColorTheme.sixOne, fontSize: 12),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))),
+        )
+      else
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: model.movieReviewList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: 71,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Container(
+                        child: Container(
+                            child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          model.movieReviewList[index].content,
+                          style: FontTheme.notoRegular
+                              .copyWith(color: ColorTheme.sixOne, fontSize: 12),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            model.movieReviewList[index].author,
+                            style: FontTheme.notoRegular.copyWith(
+                                color: ColorTheme.sixOne, fontSize: 12),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    )))),
+              );
+            }),
+      SizedBox(
+        height: 76,
       ),
     ],
   );

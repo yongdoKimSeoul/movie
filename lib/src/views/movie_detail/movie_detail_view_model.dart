@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_test/src/model/movie_actor_model.dart';
 import 'package:just_test/src/model/movie_detail_model.dart';
 import 'package:just_test/src/model/movie_genres_model.dart';
+import 'package:just_test/src/model/movie_review_model.dart';
 import 'package:just_test/src/services/movie_service.dart';
 import 'package:just_test/src/utils/locator.dart';
 import 'package:logger/logger.dart';
@@ -19,9 +20,11 @@ class MovieDetailViewModel extends ChangeNotifier {
   List<MovieGenresModel> get movieGenresList => _movieGenresList;
   List<MovieGenresModel> _movieGenresList = [];
 
-
   List<MovieActorModel> get movieActorsList => _movieActorsList;
   List<MovieActorModel> _movieActorsList = [];
+
+  List<MovieReviewModel> get movieReviewList => _movieReviewList;
+  List<MovieReviewModel> _movieReviewList = [];
 
   int get movieId => _movieId;
   int _movieId;
@@ -35,6 +38,7 @@ class MovieDetailViewModel extends ChangeNotifier {
     await getGenresInfo();
     await getMovieDetailInfo();
     await getActorsInfo();
+    await getReviewInfo();
     setLoadingStatus(false);
 
     notifyListeners();
@@ -68,13 +72,18 @@ class MovieDetailViewModel extends ChangeNotifier {
   Future getActorsInfo() async {
     var result = await _movieService.getActorsInfo(_movieId);
     if (result.result) {
-      print(result.result);
-
-
       _movieActorsList = result.value;
-      print(_movieActorsList[0].profilePath);
     } else {
       _logger.e('getGenresInfo not working');
+    }
+  }
+
+  Future getReviewInfo() async {
+    var result = await _movieService.getReviewInfo(_movieId);
+    if (result.result) {
+      _movieReviewList = result.value;
+    } else {
+      _logger.e('getReviewInfo not working');
     }
   }
 
