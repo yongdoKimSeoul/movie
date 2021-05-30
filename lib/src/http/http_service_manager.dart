@@ -25,9 +25,13 @@ class HttpServiceManager {
     }
   }
 
-  Future<dynamic> movieGenresReq() async {
+  Future<dynamic> movieGenresReq({String addKr}) async {
+    if(addKr == null){
+      addKr='';
+    }
+
     try {
-      var res = await get('/genre/movie/list?api_key=$apiKey');
+      var res = await get('/genre/movie/list?api_key=$apiKey$addKr');
       return res;
     } catch (e) {
       _logger.v(e);
@@ -42,6 +46,16 @@ class HttpServiceManager {
       _logger.v(e);
     }
   }
+
+  Future<dynamic> movieActorsReq({@required int movieId}) async {
+    try {
+      var res = await get('/movie/$movieId/credits?api_key=$apiKey&language=en-US');
+      return res;
+    } catch (e) {
+      _logger.v(e);
+    }
+  }
+
 
 
 

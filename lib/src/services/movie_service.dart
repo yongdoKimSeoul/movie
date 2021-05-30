@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:just_test/src/http/http_service_manager.dart';
-import 'package:just_test/src/model/MovieDetailModel.dart';
+import 'package:just_test/src/model/movie_actor_model.dart';
+import 'package:just_test/src/model/movie_detail_model.dart';
 import 'package:just_test/src/model/movie_genres_model.dart';
 import 'package:just_test/src/model/movie_info_model.dart';
 import 'package:just_test/src/services/service_response.dart';
@@ -105,11 +106,8 @@ class MovieService {
   Future<ServiceResponse<MovieDetailModel>> getMovieDetail(int movieId) async {
     try {
       var res = await _httpServiceManager.movieDetailReq(movieId: movieId);
-      ;
-
       if (res != null) {
         MovieDetailModel movieDetailModel = MovieDetailModel.fromJson(res);
-
         return ServiceResponse(result: true, value: movieDetailModel);
       } else {
         return ServiceResponse(result: false, errorMsg: "Null!");
@@ -121,14 +119,34 @@ class MovieService {
   }
 
   //movieGenresReq
-  Future<ServiceResponse<List<MovieGenresModel>>> getGenresInfo() async {
+  Future<ServiceResponse<List<MovieGenresModel>>> getGenresInfo(
+      {String addKr}) async {
     try {
-      var res = await _httpServiceManager.movieGenresReq();
+      var res = await _httpServiceManager.movieGenresReq(addKr: addKr);
       if (res['genres'] != null) {
         List<MovieGenresModel> genresList = (res['genres'] as List)
             .map((item) => MovieGenresModel.fromJson(item))
             .toList();
         return ServiceResponse(result: true, value: genresList);
+      } else {
+        return ServiceResponse(
+            result: false, value: null, errorMsg: "results is null");
+      }
+    } catch (e) {
+      print(e);
+      return ServiceResponse(result: false, value: null, errorMsg: "Error");
+    }
+  }
+
+  Future<ServiceResponse<List<MovieActorModel>>> getActorsInfo(
+      int movieId) async {
+    try {
+      var res = await _httpServiceManager.movieActorsReq(movieId: movieId);
+      if (res['cast'] != null) {
+        List<MovieActorModel> actorList = (res['cast'] as List)
+            .map((item) => MovieActorModel.fromJson(item))
+            .toList();
+        return ServiceResponse(result: true, value: actorList);
       } else {
         return ServiceResponse(
             result: false, value: null, errorMsg: "results is null");

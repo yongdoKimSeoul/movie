@@ -9,14 +9,15 @@ import 'package:just_test/src/globalWidget/movie_rate.dart';
 import 'package:just_test/src/views/movie/movie_view_model.dart';
 import 'package:just_test/src/views/movie_detail/movie_detail_view.dart';
 
+import 'imageLoader.dart';
+
 enum SizeType { big, small }
 
 class MovieCardItem extends StatelessWidget {
   final value;
   final SizeType sizeType;
 
-  const MovieCardItem({Key key, this.sizeType, this.value})
-      : super(key: key);
+  const MovieCardItem({Key key, this.sizeType, this.value}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +25,16 @@ class MovieCardItem extends StatelessWidget {
     var smallWidth = MediaQuery.of(context).size.width * 0.14;
 
     return GestureDetector(
-      onTap: ()=>Get.to(()=>MovieDetailView(movieId: value.id,)),
+      onTap: () => Get.to(() => MovieDetailView(
+            movieId: value.id,
+          )),
       child: Container(
         // color: Colors.pink,
         width: sizeType == SizeType.big ? bigWidth : smallWidth,
-        height: sizeType == SizeType.big
-            ? bigWidth* 1.53
-            : smallWidth * 1.53,
+        height: sizeType == SizeType.big ? bigWidth * 1.53 : smallWidth * 1.53,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: CachedNetworkImage(
-            fit: BoxFit.fitWidth,
-            imageUrl: Address.BASIC_URL + value.posterPath,
-            placeholder: (context, url) => CustomIndicator(),
-            errorWidget: (context, url, error) => Icon(
-              Icons.error_outline_outlined,
-              color: ColorTheme.blackZero,
-            ),
-          ),
+          child: ImageLoader(imageUrl: value.posterPath ),
         ),
       ),
     );

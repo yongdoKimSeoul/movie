@@ -1,7 +1,7 @@
 class MovieDetailModel {
   bool adult;
   String backdropPath;
-  Null belongsToCollection;
+  BelongsToCollection belongsToCollection;
   int budget;
   List<Genres> genres;
   String homepage;
@@ -55,10 +55,12 @@ class MovieDetailModel {
   MovieDetailModel.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    belongsToCollection = json['belongs_to_collection'];
+    belongsToCollection = json['belongs_to_collection'] != null
+        ? new BelongsToCollection.fromJson(json['belongs_to_collection'])
+        : null;
     budget = json['budget'];
     if (json['genres'] != null) {
-      genres = [];
+      genres = new List<Genres>();
       json['genres'].forEach((v) {
         genres.add(new Genres.fromJson(v));
       });
@@ -72,13 +74,13 @@ class MovieDetailModel {
     popularity = json['popularity'];
     posterPath = json['poster_path'];
     if (json['production_companies'] != null) {
-      productionCompanies =[];
+      productionCompanies = new List<ProductionCompanies>();
       json['production_companies'].forEach((v) {
         productionCompanies.add(new ProductionCompanies.fromJson(v));
       });
     }
     if (json['production_countries'] != null) {
-      productionCountries = [];
+      productionCountries = new List<ProductionCountries>();
       json['production_countries'].forEach((v) {
         productionCountries.add(new ProductionCountries.fromJson(v));
       });
@@ -87,7 +89,7 @@ class MovieDetailModel {
     revenue = json['revenue'];
     runtime = json['runtime'];
     if (json['spoken_languages'] != null) {
-      spokenLanguages = [];
+      spokenLanguages = new List<SpokenLanguages>();
       json['spoken_languages'].forEach((v) {
         spokenLanguages.add(new SpokenLanguages.fromJson(v));
       });
@@ -104,7 +106,9 @@ class MovieDetailModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['adult'] = this.adult;
     data['backdrop_path'] = this.backdropPath;
-    data['belongs_to_collection'] = this.belongsToCollection;
+    if (this.belongsToCollection != null) {
+      data['belongs_to_collection'] = this.belongsToCollection.toJson();
+    }
     data['budget'] = this.budget;
     if (this.genres != null) {
       data['genres'] = this.genres.map((v) => v.toJson()).toList();
@@ -138,6 +142,31 @@ class MovieDetailModel {
     data['video'] = this.video;
     data['vote_average'] = this.voteAverage;
     data['vote_count'] = this.voteCount;
+    return data;
+  }
+}
+
+class BelongsToCollection {
+  int id;
+  String name;
+  String posterPath;
+  String backdropPath;
+
+  BelongsToCollection({this.id, this.name, this.posterPath, this.backdropPath});
+
+  BelongsToCollection.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    posterPath = json['poster_path'];
+    backdropPath = json['backdrop_path'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['poster_path'] = this.posterPath;
+    data['backdrop_path'] = this.backdropPath;
     return data;
   }
 }
