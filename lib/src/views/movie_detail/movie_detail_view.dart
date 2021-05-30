@@ -31,28 +31,45 @@ class MovieDetailView extends StatelessWidget {
                       )),
                   blackFilter(),
                   SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 23,
+                      child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 23,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16, right: 16),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_sharp,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () => Get.back()),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                          ),
+                          movieDetail(model, context),
+                        ],
+                      ),
+                      Positioned(
+                        top: 120,
+                        left: 16,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.375,
+                          height:
+                              MediaQuery.of(context).size.width * 0.375 * 1.53,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: ImageLoader(
+                                imageUrl: model.movieDetailInfo.backdropPath,
+                              )),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 16, right: 16),
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios_sharp,
-                                color: Colors.white,
-                              ),
-                              onPressed: () => Get.back()),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.2,
-                        ),
-                        movieDetail(model, context),
-                      ],
-                    ),
-                  ),
+                      )
+                    ],
+                  )),
                 ],
               ),
       ),
@@ -61,7 +78,7 @@ class MovieDetailView extends StatelessWidget {
 }
 
 Widget blackFilter() {
-  return Container(color: ColorTheme.blackZero.withOpacity(0.3));
+  return Container(color: ColorTheme.blackZero.withOpacity(0.4));
 }
 
 Widget movieDetail(MovieDetailViewModel model, BuildContext context) {
@@ -84,7 +101,7 @@ Widget movieDetail(MovieDetailViewModel model, BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    color: Colors.red,
+                    color: Colors.transparent,
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: 10,
                   ),
@@ -118,11 +135,13 @@ Widget movieDetail(MovieDetailViewModel model, BuildContext context) {
                                 ),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 4,right:4, bottom: 1, top: 1),
+                                padding: EdgeInsets.only(
+                                    left: 4, right: 4, bottom: 1, top: 1),
                                 child: Text(
                                   "Adult",
                                   style: FontTheme.notoBold.copyWith(
-                                      color: ColorTheme.primaryRed, fontSize: 7),
+                                      color: ColorTheme.primaryRed,
+                                      fontSize: 7),
                                 ),
                               ),
                             ),
@@ -270,14 +289,14 @@ Widget movieReviewWidget(MovieDetailViewModel model, BuildContext context) {
               padding: EdgeInsets.all(8),
               child: Container(
                   child: Center(
-                    child: Text(
-                      "아직 리뷰가 없습니다.",
-                      style: FontTheme.notoRegular
-                          .copyWith(color: ColorTheme.sixOne, fontSize: 12),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ))),
+                child: Text(
+                  "아직 리뷰가 없습니다.",
+                  style: FontTheme.notoRegular
+                      .copyWith(color: ColorTheme.sixOne, fontSize: 12),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ))),
         )
       else
         ListView.builder(
