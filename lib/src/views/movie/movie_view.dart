@@ -31,12 +31,36 @@ class MovieView extends StatelessWidget {
                           SizedBox(
                             height: 23,
                           ),
-                          NowPlayingWidget(model: model,),
+                          NowPlayingWidget(
+                            model: model,
+                          ),
                           SizedBox(
                             height: 30,
                           ),
-                          MovieCertainListWidget(model:model, list: model.movieUpComingInfoList, title: "개봉 예정",),
-                          MovieCertainListWidget(model:model, list: model.moviePopularInfoList, title: "인기",),
+                          MovieCertainListWidget(
+                            model: model,
+                            list: model.movieUpComingInfoList,
+                            title: "개봉 예정",
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          MovieCertainListWidget(
+                            model: model,
+                            list: model.moviePopularInfoList,
+                            title: "인기",
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          MovieCertainListWidget(
+                            model: model,
+                            list: model.movieTopRatedInfoList,
+                            title: "높은 평점",
+                          ),
+                          SizedBox(
+                            height: 70,
+                          ),
                         ],
                       ),
                     ),
@@ -45,4 +69,3 @@ class MovieView extends StatelessWidget {
     );
   }
 }
-

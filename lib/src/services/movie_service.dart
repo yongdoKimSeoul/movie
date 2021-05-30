@@ -71,6 +71,26 @@ class MovieService {
     }
   }
 
+  Future<ServiceResponse<List<MovieModel>>> getTopRatedInfo() async {
+    try {
+      var res = await _httpServiceManager.movieAddressReq(address: 'top_rated');
+      if ((res['results']) != null) {
+        List<MovieModel> topRatedList = (res['results'] as List)
+            .map((item) => MovieModel.fromJson(item))
+            .toList();
+        // _logger.d(res);
+        return ServiceResponse(result: true, value: topRatedList);
+      } else {
+        return ServiceResponse(
+            result: false, value: null, errorMsg: "results is null");
+      }
+    } catch (e) {
+      print(e);
+      return ServiceResponse(result: false, value: null, errorMsg: "Error");
+    }
+  }
+
+
 
 
   //movieGenresReq
