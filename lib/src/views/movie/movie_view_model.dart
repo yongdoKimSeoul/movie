@@ -9,7 +9,9 @@ class MovieViewModel extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
   bool _isLoading = false;
-  List<MovieNowPlayingInfo> _movieNowPlayingInfoList;
+
+  List<MovieNowPlayingInfo> get movieNowPlayingInfoList => _movieNowPlayingInfoList;
+  List<MovieNowPlayingInfo> _movieNowPlayingInfoList = [];
 
 
 
@@ -24,7 +26,6 @@ class MovieViewModel extends ChangeNotifier {
     var result =  await _movieService.getMovieNowPlayingInfo();
     if(result.result){
       _movieNowPlayingInfoList = result.value;
-      print(_movieNowPlayingInfoList.length);
     }else{
       print('result is failed');
     }
@@ -33,6 +34,12 @@ class MovieViewModel extends ChangeNotifier {
   void setLoadingStatus(bool value){
     _isLoading= value;
     notifyListeners();
+  }
+
+  double getMovieRate(int index){
+    double halfValue =  (_movieNowPlayingInfoList[index].voteAverage/2).ceil().toDouble();
+    return halfValue;
+
   }
 
 }

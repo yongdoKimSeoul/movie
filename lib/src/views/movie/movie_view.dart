@@ -1,12 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:just_test/src/config/adress.dart';
 import 'package:just_test/src/config/color_theme.dart';
 import 'package:just_test/src/config/font_theme.dart';
 import 'package:just_test/src/globalWidget/custom_indicator.dart';
+import 'package:just_test/src/globalWidget/movie_rate.dart';
+import 'package:just_test/src/views/movie/widgets/upcoming_widget.dart';
 import 'package:stacked/stacked.dart';
 
 import 'movie_view_model.dart';
+import 'widgets/now_play_widget.dart';
 
 class MovieView extends StatelessWidget {
   @override
@@ -26,7 +31,11 @@ class MovieView extends StatelessWidget {
                           SizedBox(
                             height: 23,
                           ),
-                          nowPlaying(model: model),
+                          NowPlayingWidget(model: model,),
+                          UpComingWidget(model:model),
+                          SizedBox(
+                            height: 30,
+                          ),
                         ],
                       ),
                     ),
@@ -36,36 +45,3 @@ class MovieView extends StatelessWidget {
   }
 }
 
-Widget nowPlaying({@required MovieViewModel model}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        "현재 상영중",
-        style: FontTheme.notoBold
-            .copyWith(color: ColorTheme.blackZero, fontSize: 20),
-      ),
-      SizedBox(
-        height: 23,
-      ),
-      // Container(
-      //   height: 300,
-      //   child: ListView.builder(
-      //       scrollDirection: Axis.horizontal,
-      //       padding: const EdgeInsets.all(8),
-      //       itemCount: model.,
-      //       itemBuilder: (BuildContext context, int index) {
-      //         return postImage();
-      //       }),
-      // )
-    ],
-  );
-}
-
-// Widget postImage(){
-//   return CachedNetworkImage(
-//     imageUrl: "http://via.placeholder.com/350x150",
-//     placeholder: (context, url) => CircularProgressIndicator(),
-//     errorWidget: (context, url, error) => Icon(Icons.error),
-//   );
-// }
