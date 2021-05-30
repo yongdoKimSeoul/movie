@@ -24,11 +24,9 @@ class MovieDetailView extends StatelessWidget {
             ? CustomIndicator()
             : Stack(
                 children: [
-                  Container(
-                      color: Colors.blue,
-                      child: ImageLoader(
-                        imageUrl: model.movieDetailInfo.backdropPath,
-                      )),
+                  ImageLoader(
+                    imageUrl: model.movieDetailInfo.backdropPath,
+                  ),
                   blackFilter(),
                   SingleChildScrollView(
                       child: Stack(
@@ -37,7 +35,7 @@ class MovieDetailView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: 23,
+                            height: MediaQuery.of(context).size.height *0.03,
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 16, right: 16),
@@ -55,7 +53,7 @@ class MovieDetailView extends StatelessWidget {
                         ],
                       ),
                       Positioned(
-                        top: 120,
+                        top: MediaQuery.of(context).size.height * 0.165,
                         left: 16,
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.375,
@@ -102,76 +100,76 @@ Widget movieDetail(MovieDetailViewModel model, BuildContext context) {
                 children: [
                   Container(
                     color: Colors.transparent,
-                    width: MediaQuery.of(context).size.width * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.375,
                     height: 10,
                   ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        model.movieDetailInfo.title,
-                        style: FontTheme.notoBold.copyWith(
-                            color: ColorTheme.blackZero, fontSize: 12),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Visibility(
-                          visible: model.movieDetailInfo.adult,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 4),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2),
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorTheme.primaryRed,
+                  SizedBox(width: 16,),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          model.movieDetailInfo.title,
+                          style: FontTheme.notoBold.copyWith(
+                              color: ColorTheme.blackZero, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Visibility(
+                            visible: model.movieDetailInfo.adult,
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  border: Border.all(
+                                    width: 1,
+                                    color: ColorTheme.primaryRed,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 4, right: 4, bottom: 1, top: 1),
+                                  child: Text(
+                                    "Adult",
+                                    style: FontTheme.notoBold.copyWith(
+                                        color: ColorTheme.primaryRed,
+                                        fontSize: 7),
+                                  ),
                                 ),
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 4, right: 4, bottom: 1, top: 1),
-                                child: Text(
-                                  "Adult",
-                                  style: FontTheme.notoBold.copyWith(
-                                      color: ColorTheme.primaryRed,
-                                      fontSize: 7),
-                                ),
-                              ),
-                            ),
-                          )),
-                      Text(
-                        model.getGenres(model.movieDetailInfo.genres),
-                        style: FontTheme.notoRegular
-                            .copyWith(color: ColorTheme.bNine, fontSize: 11),
-                      ),
-                      Text(model.movieDetailInfo.releaseDate + " 발매",
+                            )),
+                        Text(
+                          model.getGenres(model.movieDetailInfo.genres),
                           style: FontTheme.notoRegular
-                              .copyWith(color: ColorTheme.bNine, fontSize: 11)),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          MovieRate(
-                            value: model.movieDetailInfo.voteAverage,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(model.movieDetailInfo.voteAverage.toString(),
-                              style: FontTheme.notoRegular.copyWith(
-                                  color: ColorTheme.primaryYellow,
-                                  fontSize: 12)),
-                        ],
-                      )
-                    ],
+                              .copyWith(color: ColorTheme.bNine, fontSize: 11),
+                        ),
+                        Text(model.movieDetailInfo.releaseDate + " 발매",
+                            style: FontTheme.notoRegular
+                                .copyWith(color: ColorTheme.bNine, fontSize: 11)),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          children: [
+                            MovieRate(
+                              value: model.movieDetailInfo.voteAverage,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(model.movieDetailInfo.voteAverage.toString(),
+                                style: FontTheme.notoRegular.copyWith(
+                                    color: ColorTheme.primaryYellow,
+                                    fontSize: 12)),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

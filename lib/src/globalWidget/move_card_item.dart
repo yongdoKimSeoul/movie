@@ -1,12 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:just_test/src/config/adress.dart';
-import 'package:just_test/src/config/color_theme.dart';
-import 'package:just_test/src/config/font_theme.dart';
-import 'package:just_test/src/globalWidget/custom_indicator.dart';
-import 'package:just_test/src/globalWidget/movie_rate.dart';
-import 'package:just_test/src/views/movie/movie_view_model.dart';
 import 'package:just_test/src/views/movie_detail/movie_detail_view.dart';
 
 import 'imageLoader.dart';
@@ -32,6 +25,16 @@ class MovieCardItem extends StatelessWidget {
         // color: Colors.pink,
         width: sizeType == SizeType.big ? bigWidth : smallWidth,
         height: sizeType == SizeType.big ? bigWidth * 1.53 : smallWidth * 1.53,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              spreadRadius: 0,
+              blurRadius: 5,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ],
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: ImageLoader(imageUrl: value.posterPath ),
