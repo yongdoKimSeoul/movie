@@ -4,13 +4,14 @@ import 'package:just_test/src/config/color_theme.dart';
 
 class MovieRate extends StatelessWidget {
   final double value;
+  final double starSize;
 
-  const MovieRate({Key key, this.value}) : super(key: key);
+  const MovieRate({Key key, this.value, this.starSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RatingBar.builder(
-      itemSize: 15,
+      itemSize: starSize??15,
       ignoreGestures: true,
       initialRating: value,
       minRating: 1,

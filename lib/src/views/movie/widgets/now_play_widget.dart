@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:just_test/src/config/color_theme.dart';
 import 'package:just_test/src/config/font_theme.dart';
+import 'package:just_test/src/globalWidget/movie_rate.dart';
 import 'package:just_test/src/views/movie/movie_view_model.dart';
 
-import '../../../globalWidget/move_big_item.dart';
+import '../../../globalWidget/move_card_item.dart';
 
 class NowPlayingWidget extends StatelessWidget {
   final MovieViewModel model;
@@ -24,13 +25,41 @@ class NowPlayingWidget extends StatelessWidget {
           height: 23,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.35,
+          height: MediaQuery.of(context).size.height * 0.4,
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: model.movieNowPlayingInfoList.length,
               itemBuilder: (BuildContext context, int index) {
-                return MovieItem(model: model, index: index,sizeType: SizeType.big,);
+                return Column(
+                  children: [
+                    Padding(
+                      child: MovieCardItem(
+                        modeList: model.movieNowPlayingInfoList,
+                        index: index,
+                        sizeType: SizeType.big,
+                      ),
+                      padding: EdgeInsets.only(right: 17),
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        child: Text(
+                          model.movieNowPlayingInfoList[index].originalTitle,
+                          style: FontTheme.notoMedium.copyWith(
+                              fontSize: 12, color: ColorTheme.blackZero),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    MovieRate(value: model.getMovieRate(index, model.movieNowPlayingInfoList)),
+                  ],
+                );
               }),
         )
       ],

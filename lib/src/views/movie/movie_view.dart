@@ -32,10 +32,10 @@ class MovieView extends StatelessWidget {
                             height: 23,
                           ),
                           NowPlayingWidget(model: model,),
-                          UpComingWidget(model:model),
                           SizedBox(
                             height: 30,
                           ),
+                          UpComingWidget(model:model),
                         ],
                       ),
                     ),

@@ -81,7 +81,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    -  .env
+    - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -97,10 +97,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: NotoSansKR
-       fonts:
-         - asset: assets/fonts/NotoSansKR-Regular.otf
-           weight: 400
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Bold.otf
+          weight: 700
+        - asset: assets/fonts/NotoSansKR-Medium.otf
+          weight: 500
+        - asset: assets/fonts/NotoSansKR-Regular.otf
+          weight: 400
 
 
   #

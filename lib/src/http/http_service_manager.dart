@@ -1,28 +1,38 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 @lazySingleton
 class HttpServiceManager {
-
   Dio _dio = Dio();
   Logger _logger = Logger();
   String apiKey = dotenv.env['API_KEY'];
 
   HttpServiceManager() {
-    _dio.options.baseUrl = 'https://api.themoviedb.org/3/movie';
-    _dio.options.contentType = Headers.formUrlEncodedContentType;
+    _dio.options.baseUrl = 'https://api.themoviedb.org/3';
   }
 
-  Future<dynamic> movieNowPlayingReq() async {
+
+  Future<dynamic> movieAddressReq({@required String address}) async {
     try {
-      var res = await get('/now_playing?api_key=$apiKey&language=ko');
+      var res = await get('/movie/$address?api_key=$apiKey&language=ko');
       return res;
     } catch (e) {
       _logger.v(e);
     }
   }
+
+  Future<dynamic> movieGenresReq() async {
+    try {
+      var res = await get('/genre/movie/list?api_key=$apiKey');
+      return res;
+    } catch (e) {
+      _logger.v(e);
+    }
+  }
+
 
   // Base Http Methods
   Future<dynamic> get(
