@@ -28,3 +28,33 @@ void main() {
     expect(find.text('1'), findsOneWidget);
   });
 }
+
+
+
+
+// fvm flutter pub run build_runner build
+
+
+// class MovieView extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return ViewModelBuilder<MovieViewModel>.reactive(
+//       viewModelBuilder: () => MovieViewModel(),
+//       onModelReady: (model) => model.initialize(),
+//       builder: (context, model, child) => Scaffold(
+//         body: Container(),
+//       ),
+//     );
+//   }
+// }
+
+
+
+// // // ViewModel
+// class MovieViewModel extends ChangeNotifier {
+//
+//   void initialize() {
+//     notifyListeners();
+//   }
+//
+// }
