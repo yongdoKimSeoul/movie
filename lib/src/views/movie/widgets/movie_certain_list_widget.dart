@@ -44,8 +44,7 @@ Widget movieCertainItem({MovieViewModel model, int index, List list}) {
     child: Row(
       children: [
         MovieCardItem(
-          modeList: list,
-          index: index,
+          value: list[index],
           sizeType: SizeType.small,
         ),
         SizedBox(

@@ -15,6 +15,7 @@ class HttpServiceManager {
   }
 
 
+  //popular now_playing...
   Future<dynamic> movieAddressReq({@required String address}) async {
     try {
       var res = await get('/movie/$address?api_key=$apiKey&language=ko');
@@ -32,6 +33,16 @@ class HttpServiceManager {
       _logger.v(e);
     }
   }
+
+  Future<dynamic> movieDetailReq({@required int movieId}) async {
+    try {
+      var res = await get('/movie/$movieId?api_key=$apiKey&language=ko');
+      return res;
+    } catch (e) {
+      _logger.v(e);
+    }
+  }
+
 
 
   // Base Http Methods

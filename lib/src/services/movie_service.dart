@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:just_test/src/http/http_service_manager.dart';
+import 'package:just_test/src/model/MovieDetailModel.dart';
 import 'package:just_test/src/model/movie_genres_model.dart';
 import 'package:just_test/src/model/movie_info_model.dart';
 import 'package:just_test/src/services/service_response.dart';
@@ -10,7 +11,18 @@ import 'package:logger/logger.dart';
 class MovieService {
   final HttpServiceManager _httpServiceManager = locator<HttpServiceManager>();
   Logger _logger = Logger();
-  MovieModel _movieNowPlayingInfo;
+
+  MovieService() {
+    movieServiceInit();
+  }
+
+  Future movieServiceInit() async {
+    await getMovieNowPlayingInfo();
+    await getMovieUpComingInfo();
+    await getGenresInfo();
+    await getPopularInfo();
+    await getTopRatedInfo();
+  }
 
   //현재상영
   Future<ServiceResponse<List<MovieModel>>> getMovieNowPlayingInfo() async {
@@ -90,15 +102,29 @@ class MovieService {
     }
   }
 
+  Future<ServiceResponse<MovieDetailModel>> getMovieDetail(int movieId) async {
+    try {
+      var res = await _httpServiceManager.movieDetailReq(movieId: movieId);
+      ;
 
+      if (res != null) {
+        MovieDetailModel movieDetailModel = MovieDetailModel.fromJson(res);
 
+        return ServiceResponse(result: true, value: movieDetailModel);
+      } else {
+        return ServiceResponse(result: false, errorMsg: "Null!");
+      }
+    } catch (e) {
+      _logger.d(e);
+      return ServiceResponse(result: false, errorMsg: "Error!");
+    }
+  }
 
   //movieGenresReq
   Future<ServiceResponse<List<MovieGenresModel>>> getGenresInfo() async {
     try {
       var res = await _httpServiceManager.movieGenresReq();
       if (res['genres'] != null) {
-
         List<MovieGenresModel> genresList = (res['genres'] as List)
             .map((item) => MovieGenresModel.fromJson(item))
             .toList();

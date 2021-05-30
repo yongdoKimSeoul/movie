@@ -35,8 +35,7 @@ class NowPlayingWidget extends StatelessWidget {
                   children: [
                     Padding(
                       child: MovieCardItem(
-                        modeList: model.movieNowPlayingInfoList,
-                        index: index,
+                        value: model.movieNowPlayingInfoList[index],
                         sizeType: SizeType.big,
                       ),
                       padding: EdgeInsets.only(right: 17),
