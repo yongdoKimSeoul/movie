@@ -6,10 +6,13 @@ import 'package:just_test/src/globalWidget/movie_rate.dart';
 
 import '../movie_view_model.dart';
 
-class UpComingWidget extends StatelessWidget {
+class MovieCertainListWidget extends StatelessWidget {
   final MovieViewModel model;
+  final String title;
+  final List list;
 
-  const UpComingWidget({Key key, this.model}) : super(key: key);
+  const MovieCertainListWidget({Key key, this.title, this.list, this.model})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class UpComingWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "개봉 예정",
+          title ?? "",
           style: FontTheme.notoBold
               .copyWith(color: ColorTheme.blackZero, fontSize: 20),
         ),
@@ -25,10 +28,9 @@ class UpComingWidget extends StatelessWidget {
           height: 16,
         ),
         Column(
-          children: model.movieUpComingInfoList
-              .map((value) => upComingItem(
-                  model: model,
-                  index: model.movieUpComingInfoList.indexOf(value)))
+          children: list
+              .map((value) => movieCertainItem(
+                  list: list, model: model, index: list.indexOf(value)))
               .toList(),
         )
       ],
@@ -36,15 +38,13 @@ class UpComingWidget extends StatelessWidget {
   }
 }
 
-Widget upComingItem({MovieViewModel model, int index}) {
-  var upComingInfo = model.movieUpComingInfoList[index];
-
+Widget movieCertainItem({MovieViewModel model, int index, List list}) {
   return Padding(
     padding: EdgeInsets.only(bottom: 8),
     child: Row(
       children: [
         MovieCardItem(
-          modeList: model.movieUpComingInfoList,
+          modeList: list,
           index: index,
           sizeType: SizeType.small,
         ),
@@ -58,7 +58,7 @@ Widget upComingItem({MovieViewModel model, int index}) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  upComingInfo.originalTitle,
+                  list[index].originalTitle,
                   style: FontTheme.notoMedium
                       .copyWith(color: ColorTheme.blackZero, fontSize: 14),
                 ),
@@ -69,14 +69,30 @@ Widget upComingItem({MovieViewModel model, int index}) {
                     starSize: 9,
                     value: model.getMovieRate(
                       index,
-                      model.movieUpComingInfoList,
+                      list,
                     )),
-                SizedBox(height: 16,),
-                Text(
-                  model.getGenres(upComingInfo.genreIds),
-                  style: FontTheme.notoRegular
-                      .copyWith(color: ColorTheme.nineA, fontSize: 9),
+                SizedBox(
+                  height: 16,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        model.getGenres(list[index].genreIds),
+                        style: FontTheme.notoRegular
+                            .copyWith(color: ColorTheme.nineA, fontSize: 9),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Text(
+                      list[index].releaseDate,
+                      style: FontTheme.notoRegular
+                          .copyWith(color: ColorTheme.nineA, fontSize: 9),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

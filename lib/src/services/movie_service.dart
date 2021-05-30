@@ -52,6 +52,27 @@ class MovieService {
     }
   }
 
+  Future<ServiceResponse<List<MovieModel>>> getPopularInfo() async {
+    try {
+      var res = await _httpServiceManager.movieAddressReq(address: 'popular');
+      if ((res['results']) != null) {
+        List<MovieModel> popularList = (res['results'] as List)
+            .map((item) => MovieModel.fromJson(item))
+            .toList();
+        // _logger.d(res);
+        return ServiceResponse(result: true, value: popularList);
+      } else {
+        return ServiceResponse(
+            result: false, value: null, errorMsg: "results is null");
+      }
+    } catch (e) {
+      print(e);
+      return ServiceResponse(result: false, value: null, errorMsg: "Error");
+    }
+  }
+
+
+
   //movieGenresReq
   Future<ServiceResponse<List<MovieGenresModel>>> getGenresInfo() async {
     try {

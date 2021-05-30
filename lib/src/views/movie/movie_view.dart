@@ -7,7 +7,7 @@ import 'package:just_test/src/config/color_theme.dart';
 import 'package:just_test/src/config/font_theme.dart';
 import 'package:just_test/src/globalWidget/custom_indicator.dart';
 import 'package:just_test/src/globalWidget/movie_rate.dart';
-import 'package:just_test/src/views/movie/widgets/upcoming_widget.dart';
+import 'package:just_test/src/views/movie/widgets/movie_certain_list_widget.dart';
 import 'package:stacked/stacked.dart';
 
 import 'movie_view_model.dart';
@@ -35,7 +35,8 @@ class MovieView extends StatelessWidget {
                           SizedBox(
                             height: 30,
                           ),
-                          UpComingWidget(model:model),
+                          MovieCertainListWidget(model:model, list: model.movieUpComingInfoList, title: "개봉 예정",),
+                          MovieCertainListWidget(model:model, list: model.moviePopularInfoList, title: "인기",),
                         ],
                       ),
                     ),

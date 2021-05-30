@@ -19,14 +19,20 @@ class MovieViewModel extends ChangeNotifier {
   List<MovieModel> get movieUpComingInfoList => _movieUpComingInfoList;
   List<MovieModel> _movieUpComingInfoList = [];
 
+  List<MovieModel> get moviePopularInfoList => _moviePopularInfoList;
+  List<MovieModel> _moviePopularInfoList = [];
+
   List<MovieGenresModel> get movieGenresList => _movieGenresList;
   List<MovieGenresModel> _movieGenresList = [];
+
+
 
   Future initialize() async {
     setLoadingStatus(true);
     await getNowPlayingInfo();
     await getUpComingInfo();
     await getGenresInfo();
+    await getPopularInfo();
     setLoadingStatus(false);
     notifyListeners();
   }
@@ -60,6 +66,21 @@ class MovieViewModel extends ChangeNotifier {
       _logger.e('getGenresInfo not working');
     }
   }
+
+  Future getPopularInfo() async {
+    var result = await _movieService.getPopularInfo();
+    if (result.result) {
+      _moviePopularInfoList = result.value;
+      var tempList = _moviePopularInfoList.sublist(0, 3);
+      _moviePopularInfoList.clear();
+      _moviePopularInfoList.addAll(tempList);
+    } else {
+      _logger.e('getPopularInfo not working');
+    }
+  }
+
+
+
 
   void setLoadingStatus(bool value) {
     _isLoading = value;
